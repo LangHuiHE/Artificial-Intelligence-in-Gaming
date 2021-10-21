@@ -1,0 +1,460 @@
+"owner" 1 0 0 8
+"xloc" 1 0 0 -1
+"yloc" 1 0 0 -1
+"des" 1 0 0 21
+"effic" 1 0 0 -1
+"mobil" 1 0 0 -1
+"off" 1 0 0 -1
+"terr0" 1 0 0 -1
+"terr1" 1 0 0 -1
+"terr2" 1 0 0 -1
+"terr3" 1 0 0 -1
+"xdist" 1 0 0 -1
+"ydist" 1 0 0 -1
+"avail" 1 0 0 -1
+"work" 1 0 0 -1
+"coastal" 1 0 0 -1
+"newdes" 1 0 0 21
+"min" 1 0 0 -1
+"gold" 1 0 0 -1
+"fert" 1 0 0 -1
+"ocontent" 1 0 0 -1
+"uran" 1 0 0 -1
+"oldown" 1 0 0 8
+"civil" 1 0 0 -1
+"milit" 1 0 0 -1
+"shell" 1 0 0 -1
+"gun" 1 0 0 -1
+"petrol" 1 0 0 -1
+"iron" 1 0 0 -1
+"dust" 1 0 0 -1
+"bar" 1 0 0 -1
+"food" 1 0 0 -1
+"oil" 1 0 0 -1
+"lcm" 1 0 0 -1
+"hcm" 1 0 0 -1
+"uw" 1 0 0 -1
+"rad" 1 0 0 -1
+"c_dist" 1 0 0 -1
+"m_dist" 1 0 0 -1
+"s_dist" 1 0 0 -1
+"g_dist" 1 0 0 -1
+"p_dist" 1 0 0 -1
+"i_dist" 1 0 0 -1
+"d_dist" 1 0 0 -1
+"b_dist" 1 0 0 -1
+"f_dist" 1 0 0 -1
+"o_dist" 1 0 0 -1
+"l_dist" 1 0 0 -1
+"h_dist" 1 0 0 -1
+"u_dist" 1 0 0 -1
+"r_dist" 1 0 0 -1
+"c_del" 1 0 0 -1
+"m_del" 1 0 0 -1
+"s_del" 1 0 0 -1
+"g_del" 1 0 0 -1
+"p_del" 1 0 0 -1
+"i_del" 1 0 0 -1
+"d_del" 1 0 0 -1
+"b_del" 1 0 0 -1
+"f_del" 1 0 0 -1
+"o_del" 1 0 0 -1
+"l_del" 1 0 0 -1
+"h_del" 1 0 0 -1
+"u_del" 1 0 0 -1
+"r_del" 1 0 0 -1
+"fallout" 1 0 0 -1
+"access" 1 0 0 -1
+"road" 1 0 0 -1
+"rail" 1 0 0 -1
+"dfense" 1 0 0 -1
+
+
+"""
+        Every sector produces a base level of food according to the following:
+
+  The amount of food that the sector can grow in one time unit is:
+
+     fertility * 0.002
+
+  The amount of food that can be harvested in one time unit is:
+
+     (civilians + military / 5) * 0.002
+
+  i.e.  one  civilian can harvest four times the amount that he/she eats while
+  one military can harvest 4/5 of the amount that she/he eats.
+
+  Note that this means that although a sector with a fertility of 40 can  grow
+  enough food to support 160 people at least 10 of them must be civilians.  In
+  fact, any combination of civilians and military that meets the following two
+  criteria will be self-sufficient:
+
+     civilians + military <= 4 * fertility (amount that grows)
+
+     military <= 15 * civilians (amount that gets harvested)
+
+In  an agribusiness an additional amount of food can be grown.  That amount is
+calculated by the following:
+
+  An efficiency factor (effact) takes into account the state of repair of  the
+  agribusiness  itself  (sector efficiency, effic) and the technology level of
+  your farmers (the national technology level, tlev):
+
+     effact = (effic * (tlev + 10)) / (100 * (tlev + 20))
+
+  The amount of additional food that the sector produces in one time unit is:
+
+     (civilians + military / 5) * effact * fertility / 1000.
+
+  Thus, a 100% agribusiness with a fertility of 50 and an educational level of
+  10  has an efficiency factor is 2/3; one civilian can harvest 0.033 units of
+  food per time unit beyond the food normally produced in that  sector.   This
+  extra  amount  is enough to support 33-three other people while one military
+  can harvest 0.0066, enough to feed 13 other people.
+
+  The amount of food cultivated by 10 civilians in 10 time  units  in  a  100%
+  agribusiness are:
+
+              |  EDUCATION LEVEL  |
+              |  0  |  10  |  100 |
+        ------+-----+------+------+
+        F  10 | 0.5 | 0.67 | 0.92 |
+        E  ---+-----+------+------+
+        R  50 | 2.5 | 3.33 | 4.58 |
+        T  ---+-----+------+------+
+        . 100 | 5.0 | 6.67 | 9.17 |
+        ------+-----+------+------+
+
+  SPECIAL  NOTE: Residents of a sanctuary need no food to survive; thus no one
+  ever starves in a sanctuary.
+
+On a ship the following applies:
+
+  The amount of food that can be produced on a fishing boat in one  time  unit
+  is:
+
+     (civil * etus * fertil) / 10000;
+
+  However, if the NEWFISH option is in use, the limit is:
+
+     (civil * etus * fertil) / 1000;
+
+  The  amount  of food that can be produced on any other ship in one time unit
+  is:
+
+     0
+
+        """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                             Concept : Mobility
+
+NAME
+   Mobility - How much mobility stuff costs
+
+Level: Expert
+
+Mobility represents the amount of time and energy it takes to do
+something.  In "Real Life" a ground offensive takes hours.  In Empire,
+it takes less than a second.  Now the way Empire *could* work would be
+for you to give your troops "orders" and then wait a "realistic"
+amount of time for them to carry these orders out.  But who wants to
+type "nav 15 yh" and then wait 30 minutes for the ship to get there?
+Certainly not you!  That's why mobility was invented.  Every update,
+all of your units and sectors get more mobility, and that means that
+enough time has passed for you to be able to do more stuff!
+
+In Empire, four things have mobility: sectors, ships, planes, and land
+units.  You can see how much mobility each of these gets every update
+in the output of the "version" command:
+                                Sectors Ships   Planes  Units
+Maximum mobility                127     127     127     127
+Max mob gain per update         60      120     90      90
+
+If the mobility cost for something is a fraction, for example 2.4,
+then there will be a percentage chance that the actual cost is rounded
+up or down.  In our example, there would be a 60% chance that 2.4 is
+rounded down to 2 and a 40% chance that it is rounded up to 3.
+
+-- Land Units --
+Land units are charged mobility for the following actions:
+
+1. Fighting
+See "info Attacking" for the mobility cost to attack.
+
+2. Fighting rebels
+For each 2 points of efficiency a land unit loses fighting rebels at
+the update, it loses one point of mobility.
+
+3. Fortification
+Fortifying a land unit ("dig in") costs one point of mobility per
+point of fortification.  An engineer cuts the mobility cost by one
+third.  See "info fortify".
+
+4. Laying mines
+A land unit is charged one point of mobility for every land mine laid.
+
+5. Work
+The increase in efficiency depends on mobility used. It costs a 100%
+efficient land unit 6 mobility to raise a sector 1% efficiency.  Less
+efficient land units are charged proportionally higher amounts of
+mobility.  For example, a 50% land unit would be charged 12 mobility
+to raise the efficiency of a sector by 1%.
+
+6. Supply
+When supply is drawn from a supply unit, that unit pays the mobility
+cost to move the goods to the destination sector.  That cost is the
+same as it would cost the sector to move the goods using the "move"
+command.
+
+7. Marching, reacting or retreating
+The mobility cost for a land unit to march, react or retreat is:
+  (path cost) * 5 * 480 / (unit speed)
+where
+  unit speed = speed * (1 + (tech factor))
+  tech factor = (50 + tech) / (200 + tech)
+
+See "Path Cost" below for the path cost formula.  Note that reacting
+land units only pay mobility to move "to" the attacked sector; they
+return to their start sector for free.  Land units on "reserve"
+mission only pay half the mobility cost to react.
+
+Marching through newly taken sectors (not old-owned, no mobility)
+costs extra mobility equivalent to a path cost of 0.2.
+
+Note that the efficiency of a land unit does not affect the mobility
+costs it pays to march, unless the unit is a supply unit.  Then the
+mobility costs are proportional to the efficiency of the unit.
+
+8. Shell damage
+When a land unit is shelled, its mobility goes down in exactly the
+same way that its efficiency goes down (see "info Damage").
+
+-- Planes --
+Plane mobility can never go below -32.  Planes are charged mobility
+for the following:
+
+1. Air combat
+For every two points of damage the plane takes from air combat, the
+plane loses one point of mobility.
+
+2. Launching satellites
+A satellite is charged one point of mobility for each sector it passes
+over in its launch trajectory.
+
+3. Flying
+The mobility cost for a plane to fly is:
+  5 + (flight cost) * (distance flown) / (max distance plane can fly)
+
+For escorts and interceptors, the flight cost is:
+  10 / (plane efficiency)
+For all other flights, the flight cost is:
+  20 / (plane efficiency)
+
+4. Land mine, pin-bombing, and nuclear damage
+A land mine, pinpoint bomb or nuclear detonation
+will damage the mobility of the plane in exactly the same way that the
+efficiency of the plane is damaged (see "info Damage").
+
+-- Ships --
+Ships are charged mobility for the following:
+
+1. Firing a shell
+The mobility cost to fire a shell is 15, unless the NOMOBCOST option
+is enabled in which case ships are charged nothing.
+
+2. Firing a torpedo
+The cost for a ship to fire a torpedo is one half of the cost for it
+to move one sector.
+
+3. Boarding a ship from a ship
+See "info Attacking" for the mobility cost to board a ship from a ship.
+
+4. Navigating and retreating
+The mobility cost for a ship to navigate or retreat is:
+  (sectors traveled) * 480 / (ship speed)
+where
+  ship speed = (base speed) * (1 + (tech factor))
+  base speed = max(0.01, efficiency * speed)
+  tech factor = (50 + tech) / (200 + tech)
+
+5. Shell damage
+When a ship is shelled, its mobility goes down in exactly the same way
+that its efficiency goes down (see "info Damage").
+
+-- Sectors --
+Sectors are charged mobility for the following actions:
+
+1. Converting civilians
+Each civilian converted costs 0.2 mobility.
+
+2. Shooting civilians & uws
+The mobility cost to shoot civilians or uws is
+  (number shot + 4) / 5
+
+3. Enlisting military
+The mobility cost for enlisting military depends on what fraction of the
+civilians present you are enlisting:
+  (new mobility) = (old mobility) * (1 - newmil / civs)
+
+4. Fighting
+See "info Attacking" for the mobility cost of attacking.
+
+5. Moving commodities
+Sectors move commodities in the "move" and "explore" commands, when
+"supply" is drawn from them, and when they "deliver" and "distribute"
+at the update.
+
+Mobility is used from the source sector when moving.  Mobility used is
+a factor of the commodity involved, the amount of the commodity, the
+types of the sector and dist sector, the efficiency of both, and the
+cost of the path to the destination sector.  When the move is
+finished, move reports the total mobility used, and the amount of
+mobility left in the sector.
+
+The exact formula is:
+  mob cost = (amount) * (weight) * (path cost) / (source packing bonus)
+
+Weight
+Each commodity has a weight:
+  bar        50
+  gun        10
+  rad         8
+  dust        5
+  uw          2
+  other       1
+
+Packing Bonus
+Some sectors are better at moving certain commodities than
+others. This ability is known as their packing bonus. These sectors
+only get these bonuses for moving items "from" them--not for moving
+items "to" them. If the sector is less than 60% efficient, it doesn't
+get its packing bonus.  Here are the packing bonuses:
+        warehouse/harbor   bank   other
+  mil          1             1       1
+   uw          2             1       1
+  civ         10            10      10
+  bar          5             4       1
+other         10             1       1
+
+Path Cost
+The path cost is the cumulative mobility cost of moving through each
+sector in the path. The cost to enter a sector is based on the
+sector's type and efficiency.
+
+Sectors typically cost 0.4 at 0% efficiency, and 0.2 at 100%.
+Efficient highways cost less, and mountains cost much more.  See "show
+sect stats" for the exact numbers.
+
+Road infrastructure, if enabled, allows you to construct roads in
+sectors and thus decrease their mobility cost by up to 90%.
+
+Railway infrastructure, if enabled, decreases mobility cost by up to
+99%, but only for marching trains.
+
+See "info improve" for more information on improving the
+infrastructure efficiency ratings of your sectors, and see "info
+sinfrastructure" for information on showing the infrastructure of your
+sectors.
+
+See "info Infrastructure" for more general information on Infrastructure.
+
+In any case, the sector mobility cost is at least 0.001, except for
+marching land units, where it is at least 0.02.
+
+Update mobility bonus
+Commodities get moved at the update through delivery and distribution.
+All goods moved this way get their mob cost divided by 4 for deliver,
+and 10 for distribute.  Furthermore, commodities distributed into a
+harbor or warehouse get the warehouse packing bonus (normally, packing
+bonuses only apply for the type of the source sector and not the type
+of the destination sector).  These two bonuses represent the fact that
+moving goods through an established distribution network is more
+efficient.
+
+6. Transporting planes or nukes
+The weight of a plane is lcm + 2*hcm.  The weight of a nuke is the
+number of "lbs" it has (from "show nuke stats").
+
+7. Shell damage
+When a sector is shelled, its mobility goes down in exactly the same
+way that efficiency goes down (see "info Damage").
+
+SEE ALSO
+   Sectors, Infrastructure, Ships, LandUnits, Planes, Nukes, Transportation
+
+
+
+   ^ mountain                dust      75%  deity
+   s sanctuary                              deity
+    wasteland                              deity
+   u uranium mine            rad      100%
+   p park                    happy    100%
+   d defense plant           guns     100%
+   i shell industry          shells   100%
+   m mine                    iron     100%
+   g gold mine               dust     100%
+   a agribusiness            food     900%
+   o oil field               oil      100%
+   j light manufacturing     lcm      100%
+   k heavy manufacturing     hcm      100%
+   t technical center        tech     100%
+   r research lab            medical  100%
+   l library/school          edu      100%
+   = bridge span                            deity
+   b bank                    bars     100%
+   % refinery                petrol  1000%
+   ~ plains                                 deity
+   @ bridge tower                           deity
+
+
+
+
+
+"uid" 1 0 0 1
+"owner" 1 0 0 8
+"xloc" 1 0 0 -1
+"yloc" 1 0 0 -1
+"type" 1 0 0 22
+"effic" 1 0 0 -1
+"mobil" 1 0 0 -1
+"off" 1 0 0 -1
+"tech" 1 0 0 -1
+"opx" 1 0 0 -1
+"opy" 1 0 0 -1
+"mission" 1 0 0 37
+"radius" 1 0 0 -1
+"fleet" 3 0 0 -1
+"civil" 1 0 0 -1
+"milit" 1 0 0 -1
+"shell" 1 0 0 -1
+"gun" 1 0 0 -1
+"petrol" 1 0 0 -1
+"iron" 1 0 0 -1
+"dust" 1 0 0 -1
+"bar" 1 0 0 -1
+"food" 1 0 0 -1
+"oil" 1 0 0 -1
+"lcm" 1 0 0 -1
+"hcm" 1 0 0 -1
+"uw" 1 0 0 -1
+"rad" 1 0 0 -1
+"access" 1 0 0 -1
+"name" 3 0 0 -1
+"rflags" 1 8 0 49
+"rpath" 3 0 0 -1
+/32
