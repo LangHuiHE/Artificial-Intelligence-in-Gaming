@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from pickle import APPEND
 from empire import *
 
 class Build:
@@ -39,6 +40,14 @@ class Build:
             habor.hcm -= 15
             habor.avail -= 75
             print("build a new fishing boat")
+
+            words = ["1", str(habor.countryNumber), str(habor.location[0]), str(habor.location[1]), "0"]
+            for i in range (24):
+                words.append("1")
+            words.append("shouble be return")
+            words.append("")
+            words.append("")
+            self.empire['ship'] = {1 : Ship(words)}
             return True
         return False
         

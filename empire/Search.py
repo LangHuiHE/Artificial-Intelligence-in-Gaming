@@ -7,7 +7,11 @@ import sys
 import os
 import pickle
 
+# importing copy module
+import copy
+
 sourceName = "empire.p"
+outputfile = "command.text"
 
 def main():
     if os.path.exists(sourceName):
@@ -22,9 +26,27 @@ def main():
             sys.exit(1)
         
         print("start search!")
+
         state = search(empire)
-        print("search done!")
-        print(state.__dict__)
+        
+        print("search is done!")
+        
+        if os.path.exists(outputfile):
+            os.remove(outputfile)
+        
+        output =  open(outputfile, "w")
+
+        command = []
+
+        while state.parentState != None:
+            print(state.actions.__dict__)
+            state = state.parentState
+
+        for line in command:
+            output.writelines(line + "\n")
+           
+
+        output.close()
 
     else: 
         print("file doesn't exist!")
@@ -38,23 +60,27 @@ def popLowestPathCost(lst):
     return lowest
 
 def search(empire):
-    initState = State(None, empire,None)
+    state = State(None, empire,None)
 
     lst = []
 
-    lst.append(initState)
+    lst.append(state)
 
     while lst != []:
         state = popLowestPathCost(lst)
         lst.remove(state)
 
-        if Goal(state):
-            return state
+        print(len(lst))
+
+        if state.isGoalState():
+            print(state.__dict__)
+            print(state.actions.__dict__)
+            break
+            
         else:
             actionS = ActionS(state)
             for a in actionS:
                 for i in a.values():
-                    # print(i.acts)
                     if i.acts.values != []:
                         nextS = Result(state, i)
                         lst.append(nextS)
@@ -64,6 +90,8 @@ def search(empire):
                 print(i)
                 print("-")
             """
+
+    return state
 
 # create a list of possible Actions to take in State s
 def ActionS(s):
@@ -79,12 +107,12 @@ def ActionS(s):
     # Update
     actionS.append(s.update())
 
-    
+    """
     print("---\nv")
     for a in actionS:
         print(a['a1'].__dict__)
     print("^\n---")
-    
+    """
 
     return actionS
 
@@ -98,30 +126,10 @@ def Result(s1, action):
                 # print(keyCommand)
                 # print(command)
                 temp.handle(keyCommand, command)
+    print(action.__dict__)
+    next = State(copy.deepcopy(s1), temp.empire, action)
     
-    return State(s1, temp.empire, action)
-
-
-def Goal(s):
-    nation = s.currentEmpire
-
-    if len(nation['sect']) < 10:
-        return False
-
-    for loca in nation['sect']:
-        sect = nation['sect'][loca]
-        if sect.civ != 1000:
-            return False
-    
-    if len(nation['ship']) < 1:
-        return False
-
-    for loca in nation['ship']:
-        ship = nation['ship'][loca]
-        if ship.type == 0:
-            return True
-    
-    return False
+    return next
 
 
 main()

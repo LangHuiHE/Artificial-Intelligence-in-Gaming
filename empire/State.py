@@ -130,9 +130,7 @@ class State:
                     # first time set up dist
                     action1.acts['distribute'].append([sector.location, habor.location])
 
-                foodTimes = int(sector.civ)
-                if foodTimes > 200:
-                    foodTimes = 200
+                foodTimes = 1.5
                 ironBase = 100
                 ironBase *= int(sector.civ / 300)
                 haborIron = habor.iron
@@ -152,6 +150,8 @@ class State:
                 pplBase = sector.civ + int(habor.civ / 2)
                 if pplBase < 400:
                     action1.acts['threshold'].append([sector.location, "civ", pplBase])
+                else:
+                     action1.acts['threshold'].append([sector.location, "civ", 0])
 
                 if sector.des == "m":
                     action1.acts['threshold'].append([sector.location, "iron", ironBase])
@@ -168,7 +168,7 @@ class State:
 
                 production = sector.calculateProduction()
 
-                print(production)
+                # print(production)
 
 
 
@@ -243,4 +243,31 @@ class State:
         orderedLst = sorted(sects, key = lambda sect : sect.fert + sect.min + sect.ocontent + sect.uran + sect.coa, reverse=des)
 
         return orderedLst
+
+    def isGoalState(self):
+        nation = self.currentEmpire
+
+        if len(nation['sect']) < 10:
+            # print("don't have 10 sector")
+            return False
+
+        for loca in nation['sect']:
+            sect = nation['sect'][loca]
+            if sect.civ < 1000:
+                # print("don't have 1000 people")
+                # print(sect.des)
+                # print("civ")
+                # print(sect.civ)
+                return False
+        
+        if len(nation['ship']) < 1:
+            # print("dont have ship")
+            return False
+
+        for uid in nation['ship']:
+            ship = nation['ship'][uid]
+            if ship.type == 0:
+                return True
+        
+        return False
 

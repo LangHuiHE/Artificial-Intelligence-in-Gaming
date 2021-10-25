@@ -163,7 +163,7 @@ class Sector:
         if self.food > cost:
                 self.food -= cost
                 # should I set the avail to 100 after feed?
-                self.avail = 100
+                self.avail = 650
         else:
             # don;t have enough food
             self.food = 0
@@ -376,7 +376,7 @@ class Sector:
             elif self.des == "c":
                 productionLst["money"] = -(etu * government_salaries)
             elif self.des == "m":
-                productionLst["gain"] = int(self.avail * prodeff * self.min / 100 * 5)
+                productionLst["gain"] = int(self.avail * prodeff * self.min / 100 / 4)
             elif self.des == "d":
                 productionLst["gain"] = self.dust * self.work
                 productionLst["dep"] = 20
@@ -427,7 +427,6 @@ class Sector:
                             maxProdcal -= 1  
                     productionLst['gain'] = maxProdcal
                     productionLst["raw"] = {'iron': maxProdcal}
-                    print(self.iron,self.work,baseCost, maxProdcal)
 
             elif self.des == "k":
                 # hcm h  $0     2i    (tech+10)/(tech+20)
@@ -447,9 +446,6 @@ class Sector:
 
     def updateProduction(self):
         production = self.calculateProduction()
-
-        print(self.des)
-        print(production)
 
         if len(production) > 0:
             if self.des == "b":

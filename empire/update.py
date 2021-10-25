@@ -96,11 +96,13 @@ class Update:
         elif keyCommand == "update":
             if contain[0] == "*":
 
+                """
                 print("brefore Update:")
                 for loca in self.sectors:
                     target = self.sectors[loca]
                     print(target.__dict__)
                     print()
+                """
 
                 for loca in self.sectors:
                     target = self.sectors[loca]
@@ -146,11 +148,13 @@ class Update:
                     #print("Des")
                     target.updateDes()
 
+                """
                 print("after Update:") 
                 for loca in self.sectors:
                     target = self.sectors[loca]
                     print(target.__dict__)
                     print()
+                """
 
             else:
                 target = self.sectors[contain[0]]
@@ -186,10 +190,13 @@ class Update:
                 # print("---")
                 print("Des")
                 target.updateDes()
+            
 
+                """
                 print("after Update:")
                 print(target.__dict__)
                 print()
+                """
 
     """
     def act(self, target):
