@@ -1,0 +1,27 @@
+#  uk12_main.txt
+#
+#  Discussion:
+#
+#    The travel times between 12 cities in the United Kingdom.
+#
+#  Modified:
+#
+#    06 November 2002
+#
+#  Author:
+#
+#    John Burkardt
+#
+#  Reference:
+#
+#    Trevor Cox, Michael Cox,
+#    Multidimensional Scaling,
+#    Monographs on Statistics and Applied Probability 59,
+#    Chapman and Hall, 1994,
+#    ISBN 0-412-49120-6.
+#
+size  12
+geom  plane
+dist  uk12_dist.txt
+name  uk12_name.txt
+code  uk12_code.txt

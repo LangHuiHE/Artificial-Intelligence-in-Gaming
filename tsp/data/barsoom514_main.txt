@@ -1,0 +1,6 @@
+# barsoom514_main.txt
+size  514
+geom  plane
+dist  barsoom514_dist.txt
+name  barsoom514_name.txt
+code  barsoom514_code.txt

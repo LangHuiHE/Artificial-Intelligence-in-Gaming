@@ -1,0 +1,5 @@
+size  1024
+geom  plane
+dist  barsoom1024_dist.txt
+name  barsoom1024_name.txt
+code  barsoom1024_code.txt
