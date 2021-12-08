@@ -15,7 +15,7 @@ goodTeam = []
 timeAllowed = 120
 
 fileList = ["data/l.matrix.p", "data/h.matrix.p"]
-fileIndex = 1
+fileIndex = 0
 
 methods = ["BestNext", "Annealing"]
 method = 1
@@ -26,7 +26,7 @@ annealingMany = 10  # best for l is 10
 top = 10000
 tem = 10000
 low = 0.1
-b = 0.99
+b = 0.999
 
 rd = 0
 
@@ -79,8 +79,22 @@ def getTeamScore(matrix, all, team):
             pokeScore[t] = temp
             score.append(temp)
 
-    allScore.append(sorted(score)[-2])
+    # sortedLst = sorted(score)
 
+    for i in range(len(pokeScore[team[0]])):
+        bestforthis = 0
+        secondBest = 0
+        for size in range(len(team)):
+            if bestforthis < pokeScore[team[size]][i]:
+                secondBest = bestforthis
+                bestforthis = pokeScore[team[size]][i]
+            elif secondBest < pokeScore[team[size]][i]:
+                secondBest = pokeScore[team[size]][i]
+        allScore.append((bestforthis + secondBest)/2)
+
+    # print(allScore)
+
+    # allScore.append(sorted(score)[-2])
     """
     for defender in all:
         score = []
@@ -89,7 +103,7 @@ def getTeamScore(matrix, all, team):
             score.append(matrix[key])
         allScore.append(sorted(score)[-2])
     """
-    return allScore[0]
+    return allScore
 
 
 def averageTeamScore(matrix, all, team):
@@ -183,8 +197,8 @@ def bestNextMethod(all, matrix):
 # Strategy 2: Simulated Annealing
 def annealingMethod(all, matrix):
     team = randomStart(all)
-    # oldScore = sum(getTeamScore(matrix, all, team))
-    oldScore = winningDiff(getTeamScore(matrix, all, team))
+    oldScore = sum(getTeamScore(matrix, all, team))
+    # oldScore = winningDiff(getTeamScore(matrix, all, team))
 
     many = annealingMany
 
@@ -196,11 +210,12 @@ def annealingMethod(all, matrix):
     while improved or lT > low:
         # print(tem)
         improved = False
-        for t in getNeighbors(all, team, many):
+        for t in getNeighbors(all, team, 9):
 
-            # score = sum(getTeamScore(matrix, all, t))
-            score = winningDiff(getTeamScore(matrix, all, t))
-            x = (score - oldScore) / lT
+            score = sum(getTeamScore(matrix, all, t))
+            # score = winningDiff(getTeamScore(matrix, all, t))
+            u = score - oldScore
+            x = -u / lT
 
             if isGoodTeam(matrix, all, t):
                 goodTeam.append(t)
@@ -211,17 +226,17 @@ def annealingMethod(all, matrix):
             except OverflowError:
                 break
 
-            lT *= b
-            if round(random.uniform(0, 1.0), 10) <= ans:
-                # lT = tem
-
+            if u > 0:
                 team = t
                 oldScore = score
                 improved = True
-                if many < 15:
-                    many += 1
-                break
-            many -= 1
+
+            elif random.random() <= ans:
+                # lT = tem
+                team = t
+                oldScore = score
+                improved = True
+        lT *= b
     # print(t)
     return t
 

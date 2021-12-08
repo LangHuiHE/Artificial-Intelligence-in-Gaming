@@ -1,0 +1,37 @@
+4564, 'path': ['luj', 'sxw', 'zmv', 'xyz', 'ybg', 'rxi', 'odr', 'gkk', 'rty', 'gfl', 'ebb', 'kfw', 'gmx', 'trj', 'ixk', 'jmf', 'lwi', 'fdd', 'dtf', 'inq', 'luj']
+
+----
+To run the Search
+```
+python3 Search.py
+```
+file can be change the end of the "Search.py"
+```
+filesList = [
+    "uk12_main.txt",  # 0
+    "sgb128_main.txt",  # 1
+    "barsoom128_main.txt",  # 2
+    "barsoom129_main.txt",  # 3
+    "barsoom130_main.txt",  # 4
+    "barsoom256_main.txt",  # 5
+    "barsoom257_main.txt",  # 6
+    "barsoom258_main.txt",  # 7
+    "barsoom512_main.txt",  # 8
+    "barsoom513_main.txt",  # 9
+    "barsoom514_main.txt",  # 10
+    "barsoom1024_main.txt",  # 11
+    "middle-earth20_main.txt"  # 12
+]
+
+#####################################################################
+
+
+def Search():
+    # checkData()
+    # only for the barsoom128_main.txt
+
+    seconds = 120
+    print("Total time allowed: " + str(seconds) + " seconds")
+
+    fileIndex = 12
+```

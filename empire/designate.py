@@ -27,5 +27,6 @@ class Designate:
             # Not really need more info
             # how eff affects the rebuild
             self.empire['sect'][self.sector].nextDes = self.newDes
+            # print(self.empire['sect'][self.sector].nextDes)
             if self.newDes == "c":
-                 self.empire['sect'][self.sector].isCap = True
+                self.empire['extra'].nextCapLoca = self.empire['sect'][self.sector].location

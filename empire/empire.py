@@ -16,7 +16,7 @@ sectMaximunMob = 127
 global sectMaxGainMob
 sectMaxGainMob = 60
 global obrate
-obrate = .05
+obrate = .03
 global babyeat
 babyeat = 0.00005
 global etu
@@ -40,11 +40,16 @@ sect_maintenance = 60
 global ship_maintenance
 ship_maintenance = 250
 global money
-money = 1000000
+money = 100
 global bwork
 bwork = 100
 
-
+class Extra:
+    def __init__(self, words):
+        self.haborLoca = words[0]
+        self.nexthHaborLoca = words[1]
+        self.capLoca = words[2]
+        self.nextCapLoca = words[3]
 
 # empire : { dataType : { location : sector }}
 
@@ -66,7 +71,8 @@ class Sector:
         elif words[3] == '18':
             self.des = "k"
         else :
-            print("dump ass des")
+            # ("dump can't convert des")
+            self.des = "c"
         '''
         12 -> h
         10 -> m
@@ -85,20 +91,20 @@ class Sector:
         self.coa = int(words[15]) #1 is coa 0 is not
 
         # self.nextDes = int(words[16])
-        if words[15] == '5':
+        if words[16] == '5':
             self.nextDes = "c"
-        elif words[15] == '10':
+        elif words[16] == '10':
             self.nextDes = "m"
-        elif words[15] == "12":
+        elif words[16] == "12":
             self.nextDes = "h"            
-        elif words[15] == '15':
+        elif words[16] == '15':
             self.nextDes = "a"
-        elif words[15] == '17':
+        elif words[16] == '17':
             self.nextDes = "j"
-        elif words[15] == '18':
+        elif words[16] == '18':
             self.nextDes = "k"
         else :
-            print("dump ass des")
+            self.nextDes = words[16]
 
         self.min = int(words[17])
         self.gold = int(words[18])
@@ -154,7 +160,7 @@ class Sector:
         self.rail = int(words[68])
         self.dfense = int(words[69])
 
-        self.isCap = False
+        # self.isCap = False
         self.money = money
 
     def feed(self):
@@ -162,15 +168,19 @@ class Sector:
         # print(cost)
         if self.food > cost:
                 self.food -= cost
-                # should I set the avail to 100 after feed?
-                self.avail = 650
+                # should I set the avail to 1263 after feed?
+                self.avail = 1263
+                self.eff = 100
         else:
             # don;t have enough food
             self.food = 0
             self.avail = 0
 
     def calculateFoodCost(self):
-        return int((self.civ + self.mil) * 0.05)
+        foodCost = int((self.civ + self.mil) * 0.05)
+        if foodCost == 0:
+            foodCost = 1
+        return foodCost
 
     def updateMob(self):
         # how about eff and work?
@@ -221,18 +231,28 @@ class Sector:
 
         """
         if self.nextDes != self.des:
+            self.eff = 0
+            self.des = self.nextDes
             avail = self.avail / 2 * 100
-            if self.nextDes != self.des:
-                build = 4 * avail / bwork
-                if build < self.eff:
-                    self.eff -= int(build)
-                else:
-                    build = self.eff
-                    self.eff = 0
-                    self.des = self.nextDes
-                avail -= build / 4 * bwork
-
+            avail -= 100 / 4 * bwork
+            # print("updateDes")
+            # print(self.eff)
+            # print(avail)
+            """
+            avail = self.avail / 2 * 100
+            build = 4 * avail / bwork / 10
+            print("updateDes")
+            print(build)
+            if build < self.eff:
+                self.eff -= int(build)
+            else:
+                build = self.eff
+                self.eff = 0
+                self.des = self.nextDes
+            avail -= build / 4 * bwork
+            """
             self.avail = int(self.avail / 2 + avail / 100)
+            # print(self.avail)
 
     def calculatePopulationGrow(self):
         """
@@ -245,7 +265,6 @@ class Sector:
         Set food = food - q * babyeat
         Set civ = civ + q
         """
-
         q = self.civ * obrate * etu
         if q > self.food / (2 * babyeat):
             q = self.food / (2 * babyeat)
@@ -256,7 +275,10 @@ class Sector:
     def updatePopulationGrow(self):
         q = int(self.calculatePopulationGrow())
         self.food -= int(q * babyeat)
+        # print(q)
         self.civ += q
+        if self.civ > 1000:
+            self.civ = 1000
 
     def calculateTaxes(self):
         """
@@ -285,14 +307,14 @@ class Sector:
     def updateEff(self):
         # print(self.des, self.nextDes)
         avail = self.avail / 2 * 100
-        if self.nextDes == self.des:
+        if self.nextDes != self.des:
             delta = avail / bwork
             build = min(delta, 100 - self.eff)
             self.eff += int(build)
             avail -= build * bwork 
 
         self.avail = int(self.avail / 2 + avail / 100)
-
+    
     def calculateProduction(self):
         """
         /* production */

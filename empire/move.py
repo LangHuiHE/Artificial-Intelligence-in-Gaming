@@ -57,6 +57,8 @@ def itemChange(s,item,change):
             s.mil += change
         elif item == "civ":
             s.civ += change
+            if s.civ > 1000:
+                s.civ = 1000
         elif item == "shell":
             s.shell += change
         elif item == "gun":
@@ -154,22 +156,16 @@ class Move:
 
         packing = 1
         if s.eff >= 60:
-            if self.item == "uw":
-                if s.des == "w" or s.des == "h":
-                    packing = 2
-            elif self.item == "civ":
+            if self.item == "civ":
                 packing = 10
-            elif self.item == "bar":
-                if s.des == "w" or s.des == "h":
-                    packing = 5
-                elif s.des == "b":
-                    packing = 4
-            else:
-                if s.des == "w" or s.des == "h":
-                    packing = 10
-        
+            if s.des == "w" or s.des == "h" or self.end == self.empire['extra'].haborLoca:
+                packing = 10
+
+        # print("eff: " + str(s.eff))
+        # print("item : " + self.item)
+        # print(s.des + " packing " + str(packing))
+
         mobCost = int(self.amount * weight * pathCost / packing)
-        # print("mobCost " + str(mobCost))
         return mobCost
 
     def getPathCostforOneSector(self, location):
@@ -232,16 +228,58 @@ class Move:
             # print("move " + str(self.amount) + " of " + self.item + " from " + str(self.start) + " to " + str(self.end))
 
             s = self.empire['sect'][self.start]
+
+            if self.start == (0, 0) or self.start == (-1, -1):
+                print("\n\n\n\n\n")
+                print(self.start)
+                print(self.item)
+                print(self.amount)
+                print(self.end)
+                if self.start not in self.empire['sect']:
+                    print("move fail! start sector is not vaild")
+                    
+                if self.item not in itemLst:
+                    print("move fail! item is not vaild")
+                    
+                
+                if self.overridePath == False:
+                    if all(elt in moveDirection for elt in self.path) ==  False:
+                        print("move fail! path is not vaild")
+                        
+                if itemOutCheck(self.empire['sect'][self.start], self.item, self.amount) == False:
+                    print(self.start, self.item, self.amount)
+                    print("move fail! " + str(self.start) + " doestn't have enough " + self.item +" to"+ str(self.end))
+
+                if s.mob < self.prediction():
+                    print("fail")
+                    print("move fail! " + str(self.start) + "  doestn't have enough mob to move "+ str(self.amount)+ " " + self.item + " to" + str(self.end))
+                    print("total mob need " + str(self.prediction()) + "\nonly have " + str(s.mob))
+                else:
+                    print("before mob:" + str(s.mob))
+                    print("move ok! " + str(self.start) + "  "+ str(self.amount)+ " " + self.item + " to" + str(self.end))
+                    print("total mob need " + str(self.prediction()) + "\nleft " + str(s.mob))
+                    print(str(self.start) + " move out " + self.item, self.amount)
+                    print(str(self.end) + " recives "+ self.item, self.amount)
+                    print("after mob: " + str(s.mob))
+                    print("ok!")
+
+                print("\n\n\n\n\n")
+
+
             if self.check():
                 if s.mob < self.prediction():
-                    # print("move fail! " + str(self.start) + "  doestn't have enough mob to" + str(self.end))
+                    # print("move fail! " + str(self.start) + "  doestn't have enough mob to move "+ str(self.amount)+ " " + self.item + " to" + str(self.end))
+                    # print("total mob need " + str(self.prediction()) + "\nonly have " + str(s.mob))
                     return False
                 else:
+                    
                     # print("before mob:" + str(s.mob))
                     s.mob -= self.prediction()
                     itemOutCheck(s, self.item, self.amount)
                     itemChange(s, self.item, -self.amount)
                     itemChange(self.empire['sect'][self.end],self.item,self.amount)
+                    # print("move ok! " + str(self.start) + "  "+ str(self.amount)+ " " + self.item + " to" + str(self.end))
+                    # print("total mob need " + str(self.prediction()) + "\nleft " + str(s.mob))
                     # print(str(self.start) + " move out " + self.item, self.amount)
                     # print(str(self.end) + " recives "+ self.item, self.amount)
                     # print("after mob: " + str(s.mob))

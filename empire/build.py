@@ -39,7 +39,7 @@ class Build:
             habor.lcm -= 25
             habor.hcm -= 15
             habor.avail -= 75
-            print("build a new fishing boat")
+            print("should be able tp build")
 
             words = ["1", str(habor.countryNumber), str(habor.location[0]), str(habor.location[1]), "0"]
             for i in range (24):

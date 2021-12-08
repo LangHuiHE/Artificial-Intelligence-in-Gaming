@@ -1,0 +1,25 @@
+load
+
+3
+2
+Bbb
+aAb
+bAb
+ABB
+BAb
+aba
+aab
+bBA
+BBB
+A
+A
+b
+a
+B
+a
+B
+b
+B
+
+
+solve hillclimb

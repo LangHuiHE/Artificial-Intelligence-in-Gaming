@@ -14,29 +14,39 @@ def main():
             print("can't load the empire object!")
             sys.exit(1)
 
+        """
         for t in empire:
             for location in empire[t]:
                 print(empire[t][location].__dict__)  
-        print("-----") 
+        print("-----")
+        """
 
         empire['ship'] = []
         
         lst = []
         for loca in empire['sect']:
-            if empire["sect"][loca].countryNumber != 37:
+            if empire["sect"][loca].countryNumber != 28:
                 lst.append(loca)
         
         for loca in lst:
             del empire['sect'][loca]
 
         for loca in empire['sect']:
+            if loca == (0, 0) or loca == (2, 0):
+                empire["sect"][loca].civ = 1000
+                empire["sect"][loca].food = 550
+            else:
+                empire["sect"][loca].civ = 1
+                empire["sect"][loca].food = 0
+
+            empire["sect"][loca].mob = 127
+            empire["sect"][loca].eff = 100
             empire["sect"][loca].des = "c"
-            empire["sect"][loca].civ = 200
-            empire["sect"][loca].food = 200
+            empire["sect"][loca].avail = 0
             empire["sect"][loca].iron = 0
             empire["sect"][loca].lcm = 0
             empire["sect"][loca].hcm = 0
-            empire["sect"][loca].nextDes = ""
+            empire["sect"][loca].nextDes = "c"
             empire["sect"][loca].dst = loca
             empire["sect"][loca].c_dist = 0
             empire["sect"][loca].m_dist = 0
@@ -55,10 +65,6 @@ def main():
 
             empire["sect"][loca].money = 100
             empire["sect"][loca].isCap = False
-        
-        for t in empire:
-            for location in empire[t]:
-                print(empire[t][location].__dict__)   
 
         fout = open("empire.p", "wb")
         pickle.dump(empire,fout)

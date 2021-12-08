@@ -1,0 +1,116 @@
+puzzle-4-01-06
+```
+name:puzzles/exam-puzzles-2021/puzzle-4-01-06
+row:4
+animals:1
+board:{'left': ['a', 'A', 'A', 'A'], 'right': ['a', 'a', 'A', 'A'], 'bottom': ['a', 'a', 'a', 'a']}
+puzzle_1:['A', 'A', 'A']
+puzzle_2:['a', 'a', 'a']
+puzzle_3:['A', 'a', 'A']
+puzzle_4:['a', 'A', 'A']
+puzzle_5:['a', 'a', 'a']
+puzzle_6:['A', 'A', 'a']
+puzzle_7:['A', 'A', 'a']
+puzzle_8:['a', 'a', 'A']
+puzzle_9:['a', 'a', 'A']
+puzzle_10:['a', 'A', 'A']
+puzzle_11:['a', 'A', 'A']
+puzzle_12:['a', 'A', 'A']
+puzzle_13:['a', 'A', 'A']
+puzzle_14:['a', 'A', 'A']
+```
+----
+puzzle-4-05-02
+```
+I can't get the solution :(
+```
+---
+puzzle-4-10-09
+```
+name:puzzles/exam-puzzles-2021/puzzle-4-10-09
+row:4
+animals:10
+board:{'left': ['d', 'j', 'c', 'A'], 'right': ['F', 'I', 'i', 'a'], 'bottom': ['G', 'A', 'J', 'F']}
+puzzle_1:['D', 'f', 'C']
+puzzle_2:['J', 'c', 'g']
+puzzle_3:['C', 'c', 'b']
+puzzle_4:['B', 'i', 'C']
+puzzle_5:['C', 'b', 'j']
+puzzle_6:['B', 'G', 'H']
+puzzle_7:['h', 'h', 'j']
+puzzle_8:['H', 'c', 'i']
+puzzle_9:['I', 'I', 'f']
+puzzle_10:['a', 'd', 'g']
+puzzle_11:['D', 'J', 'b']
+puzzle_12:['B', 'E', 'a']
+puzzle_13:['e', 'J', 'J']
+puzzle_14:['j', 'A', 'j']
+puzzle_15:['a', 'F', 'C']
+puzzle_16:['c', 'A', 'f']
+```
+----
+puzzle-4-15-07
+```
+name:puzzles/exam-puzzles-2021/puzzle-4-15-07
+row:4
+animals:15
+board:{'left': ['M', 'f', 'I', 'g'], 'right': ['j', 'o', 'd', 'E'], 'bottom': ['n', 'F', 'D', 'g']}
+puzzle_1:['m', 'J', 'm']
+puzzle_2:['F', 'i', 'n']
+puzzle_3:['I', 'M', 'M']
+puzzle_4:['m', 'O', 'C']
+puzzle_5:['i', 'J', 'g']
+puzzle_6:['j', 'N', 'o']
+puzzle_7:['O', 'l', 'f']
+puzzle_8:['L', 'c', 'D']
+puzzle_9:['d', 'D', 'g']
+puzzle_10:['G', 'c', 'N']
+puzzle_11:['C', 'G', 'm']
+puzzle_12:['M', 'N', 'f']
+puzzle_13:['n', 'F', 'A']
+puzzle_14:['a', 'K', 'd']
+puzzle_15:['k', 'G', 'm']
+puzzle_16:['M', 'e', 'G']
+```
+---
+puzzle-4-18-05
+```
+name:puzzles/exam-puzzles-2021/puzzle-4-18-05
+row:4
+animals:18
+board:{'left': ['H', 'I', 'n', 'M'], 'right': ['J', 'Q', 'O', 'M'], 'bottom': ['J', 'h', 'C', 'L']}
+puzzle_1:['h', 'j', 'F']
+puzzle_2:['i', 'B', 'M']
+puzzle_3:['b', 'f', 'M']
+puzzle_4:['m', 'q', 'f']
+puzzle_5:['N', 'O', 'A']
+puzzle_6:['o', 'm', 'p']
+puzzle_7:['P', 'n', 'k']
+puzzle_8:['N', 'F', 'j']
+puzzle_9:['J', 'o', 'r']
+puzzle_10:['m', 'K', 'j']
+puzzle_11:['k', 'a', 'K']
+puzzle_12:['k', 'm', 'H']
+puzzle_13:['M', 'K', 'q']
+puzzle_14:['Q', 'f', 'c']
+puzzle_15:['F', 'R', 'P']
+puzzle_16:['p', 'm', 'l']
+```
+
+
+----
+To run the Search
+```
+python3 Search.py
+```
+Time and file can be change the beginning of the "Search.py"
+```
+timeLimit = 120
+row = 4
+animals = "18"
+pI = "05"
+overrideName = f"puzzle-{str(row)}-{animals}-{pI}"
+
+
+you might need to change the b = 0.999 or b = 0.9999 in line 129 to get the soluciton for some of the puzzle
+```

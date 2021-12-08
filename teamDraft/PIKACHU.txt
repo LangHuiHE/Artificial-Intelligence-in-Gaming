@@ -1,0 +1,23 @@
+"data/l.matrix.p"
+Lampent E+FmB/EB 4/11/14 Abomasnow PS+WBI/EB 4/14/15 Pangoro Sn+CC/NS 4/5/4 Golurk MSl+ShP/DyP 5/10/15 Venomoth I+PF/BBu 4/6/15
+Venomoth I+PF/BBu 4/6/15 Abomasnow PS+WBI/EB 4/14/15 Pangoro Sn+CC/NS 4/5/4 Lampent E+FmB/EB 4/11/14 Graveler (Alolan) VS+SE/RB 4/6/15
+Ariados PSt+Lu/Mh 4/11/15 Abomasnow PS+WBI/EB 4/14/15 Pangoro Sn+CC/NS 4/5/4 Lampent E+FmB/EB 4/11/14 Golurk MSl+ShP/DyP 5/10/15
+---
+"data/h.matrix.p"
+```
+Wormadam (Trash) Cf+IH/BBu 4/13/13 Jellicent H+BuB/SB 4/12/15 Wigglytuff Ch+IB/PR 5/15/12 Scrafty C+FoP/PUP 4/13/14 Marowak (Alolan) FS+SBo/BC 5/9/15
+Marowak (Alolan) FS+SBo/BC 5/9/15 Wigglytuff Ch+IB/PR 5/15/12 Wormadam (Trash) Cf+IH/BBu 4/13/13 Beedrill (Shadow) PJ+DR/XS 4/14/12 Scrafty C+FoP/PUP 4/13/14
+Wigglytuff Ch+IB/PR 5/15/12 Mawile (Shadow) FF+PUP/PR 6/14/13 Wormadam (Trash) Cf+IH/BBu 4/13/13 Scrafty C+FoP/PUP 4/13/14 Jellicent H+BuB/SB 4/12/15
+```
+
+
+----
+To run the Search
+```
+python3 Search.py
+```
+Time and file can be change the beginning of the "Search.py"
+```
+fileList = ["data/l.matrix.p", "data/h.matrix.p"]
+fileIndex = 0
+```

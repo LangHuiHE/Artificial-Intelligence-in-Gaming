@@ -2,7 +2,6 @@
 import sys
 import os
 import pickle
-from datetime import datetime
 from empire import *
 #
 # empire : { dataType : { location : sector }}
@@ -12,27 +11,28 @@ if os.path.exists("empire.p"):
     empire = pickle.load(fin)
     fin.close()
 else:
-    now = datetime.now()
-    current_time = now.strftime("%H:%M")
-    # print("Current Time =", current_time)
-    empire = {"sect":{},"ship":{}}
+    empire = {"sect":{},"ship":{}, "extra":Extra([0,0,0,0])}
 
 dataType = ""
 
+
 for line in sys.stdin.readlines():
+    
     line = line.strip()
     words = line.split()
-
+    
     if words[0] in ("xdump", "XDUMP"):
+        # print(words)
         if words[1] == "sect":
             dataType = words[1]
         elif words[1] == "ship":
             dataType = words[1]
         continue
-   
+
     if len(words) < 16:
         continue
-    
+  
+
     if dataType == "":
         print("missing dataType exit!")
         sys.exit(1)
@@ -46,10 +46,14 @@ for line in sys.stdin.readlines():
         uID = words[0]
         empire[dataType][uID] = temp
     
-
+"""
 for t in empire:
-    for location in empire[t]:
-        print(empire[t][location].__dict__)
+    if t == "extra":
+        print(empire[t].__dict__)
+    else:
+        for location in empire[t]:
+            print(empire[t][location].__dict__)
+"""
 
 fout = open("empire.p", "wb")
 pickle.dump(empire,fout)

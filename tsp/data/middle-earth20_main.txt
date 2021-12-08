@@ -1,0 +1,4 @@
+size  20
+geom  plane
+dist  middle-earth20_dist.txt
+name  middle-earth20_name.txt
